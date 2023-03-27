@@ -30,28 +30,30 @@ async function parseFilmsInfo(url) {
 
       const $ = cheerio.load(elem);
       const title = $(".views-field-title")
-          .find(".field-content")
-          .text()
-          .trim();
-      const href = URL + title.find("a").attr("href");
+        .find(".field-content")
+        .text()
+        .trim();
+      const href =
+        URL +
+        $(".views-field-title").find(".field-content").find("a").attr("href");
       const director = $(".views-field-field-director")
-          .find(".field-content")
-          .text()
-          .trim();
+        .find(".field-content")
+        .text()
+        .trim();
       const production = $(".views-field-field-production")
-          .find(".field-content")
-          .text()
-          .trim();
+        .find(".field-content")
+        .text()
+        .trim();
       const operators = $(".views-label-field-operator")
-          .find(".field-content")
-          .text()
-          .trim();
+        .find(".field-content")
+        .text()
+        .trim();
       const archive = $(".views-field-field-archive").text().trim();
       const pressmark = $(".views-field-field-arch-pressmark").text().trim();
       const duration = $(".views-field-field-track-time")
-          .find(".field-content")
-          .text()
-          .trim();
+        .find(".field-content")
+        .text()
+        .trim();
       const img = $("img").attr("src");
       const date = $(".views-field-field-photo-date-1").text().trim();
       id++;
@@ -77,9 +79,9 @@ async function parseFilmsInfo(url) {
       const $$ = cheerio.load(videoData);
       description = $$(".field-name-field-track-description").text().trim();
       chapter = $$(".field-name-field-razdel")
-          .find(".field-item")
-          .text()
-          .trim();
+        .find(".field-item")
+        .text()
+        .trim();
       src = $$("video").attr("src");
       trackTitle = $$(".field-name-field-track-title").text().trim();
 
@@ -100,16 +102,16 @@ async function parseFilmsInfo(url) {
       await parseFilmsInfo(URL + next_page);
     } else {
       const setChapters = new Array(
-          ...new Set(chapters.filter((item) => item))
+        ...new Set(chapters.filter((item) => item))
       );
       console.log(films);
       fs.writeFile(
-          "films.json",
-          JSON.stringify({chapters: setChapters, films}),
-          (err) => {
-            if (err) throw err; // ошибка чтения файла, если есть
-            console.log("Данные успешно записаны записать файл");
-          }
+        "films.json",
+        JSON.stringify({ chapters: setChapters, films }),
+        (err) => {
+          if (err) throw err; // ошибка чтения файла, если есть
+          console.log("Данные успешно записаны записать файл");
+        }
       );
       console.log(setChapters);
     }
